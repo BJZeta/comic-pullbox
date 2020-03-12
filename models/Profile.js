@@ -7,22 +7,36 @@ const ProfileSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "user"
   },
+  bio: {
+    type: String
+  },
   favComics: {
-    type: [String],
-    required: true
+    type: [String]
   },
   pullbox: [
     {
-      comic: {
+      title: {
         type: String,
-        available: {
-          type: String,
-          default: "Pending"
-        },
-        numOfIssue: {
-          type: String,
-          default: "Entire Series"
-        }
+        required: true
+      },
+      available: {
+        type: String,
+        default: "Pending"
+      },
+      fullSubscription: {
+        type: Boolean,
+        default: false
+      },
+      from: {
+        type: String,
+        required: true
+      },
+      to: {
+        type: String
+      },
+      currentIssue: {
+        type: String,
+        default: "Pending"
       }
     }
   ]
