@@ -3,6 +3,7 @@ const router = express.Router();
 const auth = require("../../middleware/auth");
 const User = require("../../models/User");
 const Profile = require("../../models/Profile");
+const Pullbox = require("../../models/Pullbox");
 const { check, validationResult } = require("express-validator");
 
 ///////POST api/profile ////
@@ -27,9 +28,10 @@ router.post("/", auth, async (req, res) => {
   }
   try {
     let profile = await Profile.findOne({ user: req.user.id });
+    const user = await User.findById(req.user.id).select("-password");
     /////TO UPDATE PROFILE
     if (profile) {
-      profile = await Profile.findByIdAndUpdate(
+      profile = await Profile.findOneAndUpdate(
         { user: req.user.id },
         { $set: profileFields },
         { new: true }
@@ -37,85 +39,23 @@ router.post("/", auth, async (req, res) => {
 
       return res.json(profile);
     }
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
-  }
-});
 
-///////PUT api/profile/pullbox
-///////ADD COMIC TO PULLBOX///
-///////PRIVATE////////////////
-router.put(
-  "/pullbox",
-  [
-    auth,
-    [
-      check("title", "Title is required")
-        .not()
-        .isEmpty(),
-      check("from", "From what issue?")
-        .not()
-        .isEmpty()
-    ]
-  ],
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-    const {
-      title,
-      available,
-      fullSubscription,
-      from,
-      to,
-      currentIssue
-    } = req.body;
+    /////TO CREATE PROFILE
+    profile = new Profile(profileFields);
 
-    const newComic = {
-      title,
-      available,
-      fullSubscription,
-      from,
-      to,
-      currentIssue
-    };
-
-    try {
-      const profile = await Profile.findOne({ user: req.user.id });
-
-      profile.pullbox.unshift(newComic);
-
-      await profile.save();
-
-      res.json(profile);
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send("Server Error");
-    }
-  }
-);
-
-///////DELETE api/profile/pullbox/:comic_id
-///////DELETE COMIC FROM PULLBOX///////////
-///////PRIVATE/////////////////////////////
-router.delete("/pullbox/:comic_id", auth, async (req, res) => {
-  try {
-    const profile = await Profile.findOne({ user: req.user.id });
-
-    //GET REMOVE INDEX//
-    const removeIndex = profile.pullbox
-      .map(comic => comic.id)
-      .indexOf(req.params.comic_id);
-
-    profile.pullbox.splice(removeIndex, 1);
+    const newPullbox = new Pullbox({
+      user: req.user.id,
+      name: user.name,
+      comics: []
+    });
 
     await profile.save();
-
-    res.json(profile);
+    const pullbox = await newPullbox.save();
+    res.json({ profile, pullbox });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
   }
 });
+
+module.exports = router;

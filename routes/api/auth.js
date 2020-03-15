@@ -76,7 +76,7 @@ router.post(
 ///////AUTHENTICATE ADMIN///
 ///////PUBLIC///////////////
 router.post(
-  "/admin/",
+  "/admin",
   [check("email", "Please include a valid email").isEmail()],
   [check("adminkey", "Admin Key is required").exists()],
   async (req, res) => {
@@ -95,7 +95,7 @@ router.post(
           .json({ errors: [{ msg: "Invalid Credentials" }] });
       }
 
-      const isMatch = await bcrypt.compare(adminkey, user.adminkey);
+      const isMatch = await bcrypt.compare(adminkey, admin.adminkey);
       if (!isMatch) {
         return res
           .status(400)
@@ -123,3 +123,5 @@ router.post(
     }
   }
 );
+
+module.exports = router;

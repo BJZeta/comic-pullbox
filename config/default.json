@@ -1,0 +1,4 @@
+{
+  "mongoURI": "mongodb+srv://admin1:StanLeeIsGod@comiccluster-wsvqm.mongodb.net/test?retryWrites=true&w=majority",
+  "jwtSecret": "ThisIsTheWay"
+}
