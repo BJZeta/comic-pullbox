@@ -5,11 +5,11 @@ const auth = require("../../middleware/auth");
 const Pullbox = require("../../models/Pullbox");
 const User = require("../../models/User");
 
-///////DELETE api/profile/pullbox/:comic_id
-///////DELETE COMIC FROM PULLBOX///////////
-///////PRIVATE/////////////////////////////
+///////POST api/pullbox //////
+///////ADD A COMIC TO PULLBOX/
+///////PRIVATE////////////////
 router.post(
-  "/comic",
+  "/",
   [
     auth,
     [
@@ -60,7 +60,7 @@ router.post(
   }
 );
 
-///////DELETE api/profile/pullbox/:comic_id
+///////DELETE api/pullbox/:comic_id
 ///////DELETE COMIC FROM PULLBOX///////////
 ///////PRIVATE/////////////////////////////
 router.delete("/:comic_id", auth, async (req, res) => {

@@ -12,7 +12,34 @@ const ProfileSchema = new Schema({
   },
   favComics: {
     type: [String]
-  }
+  },
+  comics: [
+    {
+      title: {
+        type: String,
+        required: true
+      },
+      available: {
+        type: String,
+        default: "Pending"
+      },
+      fullSubscription: {
+        type: Boolean,
+        default: false
+      },
+      from: {
+        type: String,
+        required: true
+      },
+      to: {
+        type: String
+      },
+      currentIssue: {
+        type: String,
+        default: "Pending"
+      }
+    }
+  ]
 });
 
 module.exports = Profile = mongoose.model("profile", ProfileSchema);

@@ -11,14 +11,15 @@ const bcrypt = require("bcryptjs");
 ///////GET api/users/////
 ///////TESTING ROUTE/////
 ///////PUBLIC////////////
-// router.get('/', auth, async (req, res) => {
-//     try {
-//         const user = await User.findById(req.user.id).select('-password');
-//     } catch (err) {
-//         console.error(err.message);
-//         res.status(500).send('Server Error');
-//     }
-// });
+router.get("/", auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+    res.json(user);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
 
 ///////POST api/auth/////
 ///////AUTHENTICATE USERS
