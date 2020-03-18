@@ -12,7 +12,7 @@ const Landing = ({ isAuthenticated }) => {
     <section className="landing">
       <div className="dark-overlay">
         <div className="landing-inner">
-          <h1 className="x-large">Welcome to The Pullbox: Atomic Comics</h1>
+          <h1 className="x-large">Welcome to The Pullbox</h1>
           <p className="lead">You collection is waiting...</p>
           <div className="buttons">
             <Link to="/register" className="btn btn-primary">
