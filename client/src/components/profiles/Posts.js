@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { getProfiles } from "../../actions/profile";
 import PropTypes from "prop-types";
 
-const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
+const Posts = ({ getProfiles, profile: { profiles, loading } }) => {
   useEffect(() => {
     getProfiles();
   }, []);
@@ -15,11 +15,11 @@ const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
         <Spinner />
       ) : (
         <Fragment>
-          <h1 className="large text-primary">Profiles</h1>
+          <h1 className="large text-primary">Posts</h1>
           <p className="lead">
             <i className="fab fa-connectdevelop">
               {" "}
-              Browse and connect with other users{" "}
+              Check out the latest news from your shop (Coming Soon){" "}
             </i>
           </p>
           <div className="profiles"></div>
@@ -29,7 +29,7 @@ const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
   );
 };
 
-Profiles.propTypes = {
+Posts.propTypes = {
   getProfiles: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired
 };
@@ -38,4 +38,4 @@ const mapStateToProps = state => ({
   profile: state.profile
 });
 
-export default connect(mapStateToProps, { getProfiles })(Profiles);
+export default connect(mapStateToProps, { getProfiles })(Posts);
